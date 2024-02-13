@@ -1,2 +1,3 @@
 # ClearCodeSuperMarioPyGame
-https://www.youtube.com/watch?v=WViyCAa6yLI&amp;t=140s
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/WViyCAa6yLI/0.jpg)](https://www.youtube.com/watch?v=WViyCAa6yLI)
