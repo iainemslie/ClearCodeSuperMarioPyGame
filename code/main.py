@@ -10,6 +10,13 @@ class Game:
         self.display_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Super Pirate World')
+
+        icon = pygame.image.load(
+            join('graphics', 'player', 'jump', '0.png'))
+        pygame.display.set_icon(icon)
+
+        pygame.mouse.set_visible(False)
+
         self.clock = pygame.time.Clock()
 
         self.tmx_maps = {0: load_pygame(join('data', 'levels', 'omni.tmx'))}
