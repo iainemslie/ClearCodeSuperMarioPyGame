@@ -43,15 +43,23 @@ class Player(pygame.sprite.Sprite):
         self.collision('horizontal')
 
         # vertical
-        self.direction.y += self.gravity / 2 * dt
-        self.rect.y += self.direction.y * dt
-        self.direction.y += self.gravity / 2 * dt
-        self.collision('vertical')
+        if not self.on_surface['floor'] and (self.on_surface['left'] or self.on_surface['right']):
+            self.direction.y = 0
+            self.rect.y += self.gravity / 10 * dt
+        else:
+            self.direction.y += self.gravity / 2 * dt
+            self.rect.y += self.direction.y * dt
+            self.direction.y += self.gravity / 2 * dt
 
         if self.jump:
             if self.on_surface['floor']:
                 self.direction.y = -self.jump_height
+            elif (self.on_surface['left'] or self.on_surface['right']):
+                self.direction.y = -self.jump_height
+                self.direction.x = 1 if self.on_surface['left'] else -1
             self.jump = False
+
+        self.collision('vertical')
 
     def check_contact(self):
         floor_rect = pygame.Rect(self.rect.bottomleft, (self.rect.width, 2))
