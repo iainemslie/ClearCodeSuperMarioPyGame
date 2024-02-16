@@ -2,7 +2,7 @@ from settings import *
 from sprites import Sprite, AnimatedSprite, MovingSprite, Spike
 from player import Player
 from groups import AllSprites
-from enemies import Tooth
+from enemies import Tooth, Shell
 
 from random import uniform
 
@@ -140,6 +140,9 @@ class Level:
                 Tooth((obj.x, obj.y), level_frames['tooth'],
                       (self.all_sprites, self.damage_sprites, self.tooth_sprites),
                       self.collision_sprites)
+            if obj.name == 'shell':
+                Shell((obj.x, obj.y), level_frames['shell'], (
+                    self.all_sprites, self.collision_sprites), obj.properties['reverse'], self.player)
 
     def run(self, dt):
         self.display_surface.fill('black')
