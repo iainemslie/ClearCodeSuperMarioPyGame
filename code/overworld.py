@@ -27,19 +27,20 @@ class Overworld:
                 AnimatedSprite((col * TILE_SIZE, row * TILE_SIZE),
                                overworld_frames['water'], self.all_sprites, Z_LAYERS['bg'])
 
-        print(overworld_frames['objects'])
+        # objects
         for obj in tmx_map.get_layer_by_name('Objects'):
             if obj.name == 'palm':
                 AnimatedSprite(
-                    (obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['bg details'])
-            elif obj.name == 'stone':
-                Sprite((obj.x, obj.y), overworld_frames['objects']['stone'],
-                       self.all_sprites, Z_LAYERS['bg details'])
-            elif 'grass' in obj.name:
-                grass_choice = randint(1, 5)
-                grass_str = f"grass{grass_choice}"
-                Sprite((obj.x, obj.y), overworld_frames['objects'][grass_str],
-                       self.all_sprites, Z_LAYERS['bg details'])
+                    (obj.x, obj.y), overworld_frames['palms'], self.all_sprites, Z_LAYERS['main'], animation_speed=randint(4, 6))
+            else:
+                z = Z_LAYERS[f"{'bg details' if obj.name == 'grass' else 'bg tiles'}"]
+                Sprite((obj.x, obj.y), obj.image, self.all_sprites, z)
+
+        # nodes & player
+        # for obj in tmx_map.get_layer_by_name('Nodes'):
+        #     # nodes
+        #     if obj.name == 'Node':
+        #         Node()
 
     def run(self, dt):
         self.all_sprites.update(dt)
