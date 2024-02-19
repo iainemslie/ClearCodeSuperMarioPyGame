@@ -8,8 +8,9 @@ from random import uniform
 
 
 class Level:
-    def __init__(self, tmx_map, level_frames):
+    def __init__(self, tmx_map, level_frames, data):
         self.display_surface = pygame.display.get_surface()
+        self.data = data
 
         # groups
         self.all_sprites = AllSprites()
@@ -60,7 +61,7 @@ class Level:
                 self.player = Player(pos=(obj.x, obj.y), groups=self.all_sprites,
                                      collision_sprites=self.collision_sprites,
                                      semicollision_sprites=self.semicollision_sprites,
-                                     frames=level_frames['player'])
+                                     frames=level_frames['player'], data=self.data)
             else:
                 if obj.name in ('barrel', 'crate'):
                     Sprite((obj.x, obj.y), obj.image,
@@ -159,7 +160,7 @@ class Level:
         # items
         for obj in tmx_map.get_layer_by_name("Items"):
             Item(obj.name, (obj.x + TILE_SIZE / 2, obj.y + TILE_SIZE / 2),
-                 level_frames['items'][obj.name], (self.all_sprites, self.item_sprites))
+                 level_frames['items'][obj.name], (self.all_sprites, self.item_sprites), self.data)
 
     def create_pearl(self, pos, direction):
         Pearl(pos, (self.all_sprites, self.damage_sprites,
@@ -187,6 +188,7 @@ class Level:
             item_sprites = pygame.sprite.spritecollide(
                 self.player, self.item_sprites, True)
             if item_sprites:
+                item_sprites[0].activate()
                 ParticleEffectSprite(
                     (item_sprites[0].rect.center), self.particle_frames, self.all_sprites)
 
