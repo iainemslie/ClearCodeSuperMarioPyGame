@@ -162,6 +162,21 @@ class Level:
             Item(obj.name, (obj.x + TILE_SIZE / 2, obj.y + TILE_SIZE / 2),
                  level_frames['items'][obj.name], (self.all_sprites, self.item_sprites), self.data)
 
+        # water
+        for obj in tmx_map.get_layer_by_name("Water"):
+            rows = int(obj.height / TILE_SIZE)
+            cols = int(obj.width / TILE_SIZE)
+            for row in range(rows):
+                for col in range(cols):
+                    x = obj.x + col * TILE_SIZE
+                    y = obj.y + row * TILE_SIZE
+                    if row == 0:
+                        AnimatedSprite(
+                            (x, y), level_frames['water_top'], self.all_sprites, Z_LAYERS['water'])
+                    else:
+                        Sprite((x, y), level_frames['water_body'], self.all_sprites,
+                               Z_LAYERS['water'])
+
     def create_pearl(self, pos, direction):
         Pearl(pos, (self.all_sprites, self.damage_sprites,
               self.pearl_sprites), self.pearl_surf, direction, 150)
