@@ -54,6 +54,7 @@ class Game:
             'particle': import_folder('graphics', 'effects', 'particle'),
             'water_top': import_folder('graphics', 'level', 'water', 'top'),
             'water_body': import_image('graphics', 'level', 'water', 'body'),
+            'bg_tiles': import_folder_dict('graphics', 'level', 'bg', 'tiles'),
         }
 
         self.font = pygame.font.Font(
