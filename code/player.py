@@ -5,7 +5,7 @@ from math import sin
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, collision_sprites, semicollision_sprites, frames, data):
+    def __init__(self, pos, groups, collision_sprites, semicollision_sprites, frames, data, attack_sound, jump_sound):
         # general setup
         super().__init__(groups)
         self.z = Z_LAYERS['main']
@@ -44,6 +44,12 @@ class Player(pygame.sprite.Sprite):
             'hit': Timer(400),
         }
 
+        # audio
+        self.attack_sound = attack_sound
+        self.attack_sound.set_volume(0.04)
+        self.jump_sound = jump_sound
+        self.jump_sound.set_volume(0.04)
+
     def input(self):
         keys = pygame.key.get_pressed()
         input_vector = vector()
@@ -63,6 +69,7 @@ class Player(pygame.sprite.Sprite):
 
             if keys[pygame.K_x]:
                 self.attack()
+                self.attack_sound.play()
 
         if keys[pygame.K_SPACE]:
             self.jump = True
@@ -93,6 +100,7 @@ class Player(pygame.sprite.Sprite):
                 self.direction.y = -self.jump_height
                 self.timers['wall slide block'].activate()
                 self.hitbox_rect.bottom -= 1
+                self.jump_sound.play()
             elif (self.on_surface['left'] or self.on_surface['right']) and not self.timers['wall slide block'].active:
                 self.timers['wall jump'].activate()
                 self.direction.y = -self.jump_height
