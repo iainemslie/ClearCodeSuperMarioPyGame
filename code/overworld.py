@@ -5,9 +5,10 @@ from random import randint
 
 
 class Overworld:
-    def __init__(self, tmx_map, data, overworld_frames):
+    def __init__(self, tmx_map, data, overworld_frames, switch_stage):
         self.display_surface = pygame.display.get_surface()
         self.data = data
+        self.switch_stage = switch_stage
 
         # groups
         self.all_sprites = WorldSprites(data)
@@ -142,6 +143,9 @@ class Overworld:
                 self.move('left')
             if keys[pygame.K_RIGHT] and self.current_node.can_move('right'):
                 self.move('right')
+            if keys[pygame.K_RETURN]:
+                self.data.current_level = self.current_node.level
+                self.switch_stage('level')
 
     def move(self, direction):
         path_key = int(self.current_node.paths[direction][0])
